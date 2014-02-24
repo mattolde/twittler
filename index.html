@@ -61,7 +61,7 @@
         }
 
         function displayTweet(tweet){
-          var date = moment(tweet.create_at).fromNow();
+          var date = moment(tweet.created_at).fromNow();
 
           $('.tweets').prepend('<div class="tweet"><a href="#" class="user" data-username="' + tweet.user + '">@' + tweet.user + '</a> - <span class="date">' + date + '</span> <p>' + tweet.message + '</p></div>');
         }
