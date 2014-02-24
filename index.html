@@ -2,6 +2,7 @@
 <html>
   <head>
     <script src="jquery.js"></script>
+    <script src="moment.min.js"></script>
     <script src="data_generator.js"></script>
 
     <style>
@@ -41,6 +42,7 @@
     <script>
 
       $(document).ready(function() {
+
         // Set filter as global to allow for refreshMessages when user tweets viewed.
         var filter = 'all';
         
@@ -59,7 +61,9 @@
         }
 
         function displayTweet(tweet){
-          $('.tweets').prepend('<div class="tweet"><a href="#" class="user" data-username="' + tweet.user + '">@' + tweet.user + '</a> - ' + tweet.created_at + ' <p>' + tweet.message + '</p></div>');
+          var date = moment(tweet.create_at).fromNow();
+
+          $('.tweets').prepend('<div class="tweet"><a href="#" class="user" data-username="' + tweet.user + '">@' + tweet.user + '</a> - <span class="date">' + date + '</span> <p>' + tweet.message + '</p></div>');
         }
 
         function viewUserTweets() {
