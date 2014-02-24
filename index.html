@@ -3,11 +3,37 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+
+    <style>
+      body { margin-left:20px;}
+      .tweets {
+        background-color: #e9eaee;
+        width:400px;
+        padding:15px 20px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+      }
+      .tweet { 
+        background-color: #fff;
+        padding:10px 10px;
+        border-bottom:1px solid #ccc;        
+      }
+      .viewAllTweets {
+        width:440px;
+      }
+      .viewAllTweets > a {
+        width:60px;
+        display:block;
+        margin:10px auto;
+      }
+    </style>
+
   </head>
   <body>
 
     <div class="viewAllTweets" style="display:none;">
-      <a href="#" id="back">Back</a>
+      <a href="#" id="back">View All</a>
     </div>
 
     <div class="tweets"></div>
@@ -15,7 +41,7 @@
     <script>
 
       $(document).ready(function() {
-
+        // Set filter as global to allow for refreshMessages when user tweets viewed.
         var filter = 'all';
         
         function getTweets(user){
@@ -26,18 +52,20 @@
           }
         }
 
-        function displayTweets(tweets){
+        function displayTweets(tweets, callback){
           for(var i = 0; i < tweets.length; i++) {
-            var tweet = tweets[i];
-
-            $('.tweets').append('<div><a href="#" class="user" data-username="' + tweet.user + '">@' + tweet.user + '</a> : ' + tweet.message + ' - Time: ' + tweet.created_at + '</div>');
+            callback(tweets[i]);
           }
+        }
+
+        function displayTweet(tweet){
+          $('.tweets').prepend('<div class="tweet"><a href="#" class="user" data-username="' + tweet.user + '">@' + tweet.user + '</a> - ' + tweet.created_at + ' <p>' + tweet.message + '</p></div>');
         }
 
         function viewUserTweets() {
           var tweets = getTweets(filter);
           $('.tweets').html('');
-          displayTweets(tweets);
+          displayTweets(tweets, displayTweet);
         }
 
         $(document).on('click', '.user', function(e) {
@@ -58,7 +86,7 @@
           viewUserTweets();
           setTimeout(function(){
             refreshMessages();
-          }, 3000);        
+          }, 5000);        
         }
 
         refreshMessages();
