@@ -28,10 +28,32 @@
         display:block;
         margin:10px auto;
       }
+      form {
+        margin:20px;
+      }
+      form select,
+      form textarea,
+      form button {
+        display: block;
+        margin:5px 10px;
+      }
     </style>
 
   </head>
   <body>
+
+    <form class="newTweetForm" type="POST">
+      <select id="user">
+        <option value="shawndrost">shawndrost</option>
+        <option value="sharksforcheap">sharksforcheap</option>
+        <option value="mracus">mracus</option>
+        <option value="douglascalhoun">douglascalhoun</option>
+      </select>
+
+      <textarea id="message"></textarea>
+
+      <button id="createTweet">Create tweet</button>
+    </form>
 
     <div class="viewAllTweets" style="display:none;">
       <a href="#" id="back">View All</a>
@@ -71,6 +93,19 @@
           $('.tweets').html('');
           displayTweets(tweets, displayTweet);
         }
+
+        function createTweet(user, message) {
+          var tweet = {};
+          tweet.user = user;
+          tweet.message = message;
+          tweet.created_at = new Date();
+          addTweet(tweet);
+        }
+
+        $(document).on('click', '#createTweet', function(e){
+          e.preventDefault();
+          createTweet($('#user').val(), $('#message').val());
+        });
 
         $(document).on('click', '.user', function(e) {
           e.preventDefault();
